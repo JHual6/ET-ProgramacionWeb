@@ -153,35 +153,24 @@ class CustomJSONEncoder(DjangoJSONEncoder):
 def add_to_cart(request, product_id):
     try:
         product = get_object_or_404(Product, id=product_id)
-        if request.user.is_authenticated:
-            cart, created = Cart.objects.get_or_create(user=request.user)
-            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-            if not created:
-                cart_item.quantity += 1
-            cart_item.save()
-        else:
-            cart = request.session.get('cart', {})
-            cart[str(product_id)] = cart.get(str(product_id), 0) + 1
-            request.session['cart'] = cart
-
-        if request.user.is_authenticated:
-            cart_items = CartItem.objects.filter(cart=cart)
-            total = sum(item.product.price * item.quantity for item in cart_items)
-        else:
-            cart = request.session.get('cart', {})
-            cart_items = [{'product': get_object_or_404(Product, id=pid), 'quantity': qty} for pid, qty in cart.items()]
-            total = sum(item['product'].price * item['quantity'] for item in cart_items)
+        cart = request.session.get('cart', {})
+        cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+        request.session['cart'] = cart
+        # Obtener los elementos del carrito desde la sesión
+        cart_items = [{'product': get_object_or_404(Product, id=pid), 'quantity': qty} for pid, qty in cart.items()]
+        total = sum(item['product'].price * item['quantity'] for item in cart_items)
+        # Preparar los datos del carrito para la respuesta JSON
         cart_items_data = [
             {
-                'id': item.id,
+                'id': pid,
                 'product': {
-                    'name': item.product.name,
-                    'price': float(item.product.price),  # Asegurarse de que el precio sea un número
-                    'image': item.product.image.url if item.product.image else None
+                    'name': item['product'].name,
+                    'price': float(item['product'].price),  # Asegurarse de que el precio sea un número
+                    'image': item['product'].image.url if item['product'].image else None
                 },
-                'quantity': item.quantity
+                'quantity': item['quantity']
             }
-            for item in cart_items
+            for pid, item in zip(cart.keys(), cart_items)
         ]
         return JsonResponse({'success': True, 'cart_items': cart_items_data, 'total': float(total)}, encoder=CustomJSONEncoder)
     except Exception as e:
