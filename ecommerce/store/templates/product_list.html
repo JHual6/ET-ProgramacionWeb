@@ -1,0 +1,188 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda MoiWeb</title>
+    <link rel="shortcut icon" href="../static/img/Logo3.0Negro.png" type="image">
+    <link rel="icon" href="../static/img/Logo3.0Negro.png" type="image">
+    <!-- Font Aweosome -->
+    <script src="https://kit.fontawesome.com/98b7a38728.js" crossorigin="anonymous"></script>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <!-- lazyload -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.0/lazysizes.min.js" async></script>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" defer></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/product_list.min.css' %}">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <nav class="navbar navbar-expand-lg menu fixed-top">
+            <div class="container">
+                <div class="image-container">
+                    <a class="navbar-brand" href="./">
+                        <img class="image" src="{% static 'img/Logo3.0Blanco.png' %}" alt="Logotipo" />
+                    </a>
+                </div>
+                <button
+                class="navbar-toggler d-flex d-lg-none flex-column justify-content-around"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbar"
+                aria-controls="navbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+                >
+                  <span class="toggler-icon top-bar"></span>
+                  <span class="toggler-icon middle-bar"></span>
+                  <span class="toggler-icon bottom-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link px-4 fw-bold menu_items" aria-current="page" href="#productos">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-4 fw-bold menu_items" aria-current="page" href="#contact">Contacto</a>
+                        </li>
+                        <!-- Carrito -->
+                        <li class="nav-item position-relative">
+                            <a id="cartButton" class="nav-link px-4 fw-bold menu_items">
+                                <i class="fa-solid fa-shopping-cart"></i>
+                            </a>
+                            <div id="cartContainer" class="cart-container">
+                                {% csrf_token %}
+                                {% if cart_items %}
+                                    {% for item in cart_items %}
+                                    <div class="cart-item">
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                        {% endif %}
+                                        <div class="cart-item-details">
+                                            <span>{{ item.product.name }}</span>
+                                            <span class="cart-item-price">{{ item.quantity }} x ${{ item.product.price|floatformat:0 }}</span>
+                                            {% if item.id %}
+                                                <div class="container-fluid botones_carrito">
+                                                    <a href="#" data-cart-item-id="{{ item.id }}" class="btn boton_aumentar d-flex justify-content-center align-items-center" data-cart-item-id="{{ item.id }}"><i class="fa-solid fa-plus"></i></a>
+                                                    <a href="#" data-cart-item-id="{{ item.id }}" class="btn boton_disminuir d-flex justify-content-center align-items-center" data-cart-item-id="{{ item.id }}"><i class="fa-solid fa-minus"></i></a>
+                                                    <a href="#" data-cart-item-id="{{ item.id }}" class="btn boton_eliminar d-flex justify-content-center align-items-center"><i class="fa-solid fa-trash"></i></a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <hr class="dropdown-divider">
+                                    <div class="cart-subtotal">
+                                        Subtotal: ${{ total|floatformat:0 }}
+                                    </div>
+                                    <div class="cart-actions">
+                                        <a href="{% url 'store:view_cart' %}" class="btn boton_carrito">Ver carrito</a>
+                                        <a href="{% url 'store:checkout' %}" class="btn boton_carrito">Finalizar compra</a>
+                                    </div>
+                                {% else %}
+                                    <div class="dropdown-item text-center">No items in cart</div>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <!-- Cuenta -->
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            <a class="nav-link px-4 fw-bold menu_items" href="{% url 'admin:logout' %}">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                            {% else %}
+                            <a class="nav-link px-4 fw-bold menu_items" href="{% url 'login' %}">
+                                <i class="fa-solid fa-user"></i>
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Productos -->
+    <div id="productos" class="container seccion_productos">
+        <h1>Productos</h1>
+
+        <!-- Búsqueda de producto por nombre -->
+        <form method="GET" action="{% url 'store:product_list' %}" class="bloque_busqueda">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control busqueda" name="q" placeholder="Buscar productos..." value="{{ request.GET.q }}">
+                <button class="btn boton_busqueda" type="submit">Buscar</button>
+            </div>
+        </form>
+
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 cartas">
+                <div class="card">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top lazyload" alt="{{ product.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">${{ product.price|floatformat:0 }}</p>
+                        <a href="#" data-product-id="{{ product.id }}" class="btn btn-primary boton_agregar">Agregar al carrito</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr>
+    
+    <!-- Contacto -->
+    <section id="contact" class="py-5 contacto">
+        <div class="container">
+            <h1 class="text-center texto_contacto">Contáctame</h1>
+            <form method="POST" id="contactForm" action="{% url 'store:contacto_nuevo' %}" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control campo_contacto" id="id_nombre" name="nombre" required>
+                    <div class="invalid-feedback">Por favor ingresa un nombre.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Correo</label>
+                    <input type="email" class="form-control campo_contacto" id="id_email" name="email" required>
+                    <div class="invalid-feedback">Por favor ingresa un correo.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="id_mensaje" class="form-label">Mensaje</label>
+                    <textarea class="form-control campo_contacto" id="id_mensaje" name="mensaje" rows="3" required></textarea>
+                    <div class="invalid-feedback">Por favor ingresa un mensaje.</div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn boton_contacto">Enviar</button>
+                </div>
+            </form>
+            <div id="formAlert" class="alert mt-3 d-none" role="alert"></div>
+        </div>
+    </section>
+    
+    <!-- Pié de página, sección con información sobre el pié de página -->
+    <footer class="fondo_pie_pagina container-fluid">
+        <div class="piepag_img">
+            <img class="pie_pag_img" src="{% static 'img/Logo3.0Blanco.png' %}" alt="Logotipo" />
+        </div>
+        <div>
+          <p class="text-white pie_pag_texto">
+            ©Copyright 2024. Jonathan Huala. <br />
+            Todos los derechos reservados
+          </p>
+        </div>
+    </footer>    
+    <!-- JS -->  
+    <script src="{% static 'js/product_list.js' %}" defer></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pago Exitoso</title>
+</head>
+<body>
+    <h1>Pago Exitoso</h1>
+    <p>Su pago ha sido procesado exitosamente.</p>
+    <p>ID de la transacción: {{ response.token }}</p>
+    <a href="{% url 'store:product_list' %}">Volver a la tienda</a>
+</body>
+</html>

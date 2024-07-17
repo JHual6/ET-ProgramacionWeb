@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container mt-5 pt-5">
+        <h1>Checkout</h1>
+        <ul>
+            {% for item in cart.items.all %}
+            <li>
+                {{ item.product.name }} - Quantity: {{ item.quantity }} - Total: ${{ item.get_total_price }}
+            </li>
+            {% endfor %}
+        </ul>
+        <p>Total: ${{ cart.items.all|sum: "get_total_price" }}</p>
+        <a href="#" class="btn btn-primary">Proceed to Payment</a>
+    </div>
+</body>
+</html>

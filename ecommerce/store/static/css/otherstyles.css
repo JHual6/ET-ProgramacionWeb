@@ -1,0 +1,322 @@
+/* Colores que serán ocupados en las páginas */
+:root {
+    --color1: #8cb9d2;
+    --color2: #abc7d6;
+}
+
+/* Página Login */
+
+body, html {
+    background-image: url('/static/img/fondoETPW.png');
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login_div li{
+    list-style-type: none;
+    color: whitesmoke;
+    font-size: .8em;
+}
+.login_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 1em;
+  background-color: var(--color1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 1.9);
+}
+.titulo_login{
+    color: whitesmoke;
+    margin-bottom: 3rem;
+}
+.login_div{
+    text-align: center;
+}
+.login_div label{
+    font-size: 1rem;
+    color: whitesmoke;
+    padding: 0 1em 0 1em;
+    margin: .2rem;
+}
+.login_div input {
+    padding: .3rem;
+    border-radius: 2vw;
+    background-color: whitesmoke;
+    transition: 0.9s ease;
+}
+.login_div input:focus {
+    border-color: var(--color1);
+    box-shadow: 0 0 1vw whitesmoke;
+    background-color: var(--color2);
+    color: white;
+}
+.boton_login {
+    border-radius: 1em;
+    background-color: var(--color2);
+    border: 1px solid whitesmoke;
+    color: white;
+    width: 150px;
+    margin-top: 1em;
+    margin-left: 1vw;
+    transition: 0.9s ease;
+}
+.boton_login:hover{
+    color: var(--color1);
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}
+
+/* Contacto confirmar */
+
+.confirmacion_contacto{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background-color: var(--color1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  
+}
+.confirmacion_contacto h2{
+    font-size: 3rem;
+    color: whitesmoke;
+    margin-bottom: 2rem;
+}
+.confirmacion_contacto p{
+    font-size: 1.6rem;
+    color: whitesmoke;
+}
+
+/* Contacto nuevo */
+
+.nuevo_contactos{
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    padding: 20px;
+    color: whitesmoke;
+    text-align: center;
+    margin-bottom: 3em;
+    background-color: var(--color1);
+    border-radius: 3vw;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); 
+}
+.contacta_titulo {
+    font-size: 3rem;
+}
+.nuevo_contactos li{
+    list-style-type: none;
+    color: whitesmoke;
+    font-size: .8rem;
+}
+.nuevo_contactos input, .nuevo_contactos textarea {
+    border-radius: 2vw;
+    background-color: whitesmoke;
+    transition: 0.7s ease;
+}
+.nuevo_contactos input:focus, .nuevo_contactos textarea:focus {
+    border-color: var(--color2);
+    box-shadow: 0 0 1vw whitesmoke;
+    background-color: var(--color2);
+    color: white;
+}
+.nuevo_contactos textarea{
+    max-height: 12rem;
+}
+.boton_contactar {
+    border-radius: 1em;
+    background-color: var(--color2);
+    color: white;
+    border: 1px solid whitesmoke;
+    width: 150px;
+    margin-top: 1em;
+    margin-left: 1vw;
+    transition: 0.7s ease;
+}
+.boton_contactar:hover{
+    color: var(--color1);
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}
+
+/* Contactos lista */
+
+.lista_contactos{
+    padding: 0;
+}
+.titulo_contactos {
+    color: whitesmoke;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabla_contactos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 18px;
+}
+
+.tabla_contactos td.text-break {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.tabla_contactos th,
+.tabla_contactos td {
+    border: 2px solid var(--color2);
+    text-align: left;
+    padding: .6rem;
+    white-space: nowrap;
+}
+
+.tabla_contactos tr {
+    background-color: whitesmoke;
+}
+
+.tabla_contactos tr:nth-child(even) {
+    background-color: var(--color1);
+}
+
+.tabla_contactos th {
+    background-color: var(--color1);
+    color: whitesmoke;
+    text-align: center;
+}
+
+.boton_lista {
+    transition: 0.7s ease;
+    background-color: var(--color2);
+    width: 50px;
+    margin: 0px 10px;
+    border-radius: 10em;
+    border: 1px solid whitesmoke;
+}
+
+.boton_lista:hover {
+    color: whitesmoke;
+    background-color: var(--color1);
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .tabla_contactos th, .tabla_contactos td {
+        padding: 0.5em;
+    }
+
+    .boton_lista {
+        width: 40px;
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tabla_contactos th, .tabla_contactos td {
+        font-size: 12px;
+        padding: 0.3em;
+    }
+
+    .boton_lista {
+        width: 40px;
+        margin: 0 3px;
+    }
+}
+
+/* Detalle contacto */
+
+.detalle_contacto{
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background-color: var(--color1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 1.8); 
+    color: whitesmoke;
+    text-align: center;
+    margin-bottom: 3em;
+}
+.boton_detalle {
+    transition: 0.7s ease;
+    background-color: var(--color2);
+    width: 50px;
+    margin: 0px 13px 0px 13px;
+    border-radius: 10em;
+    color: black;
+    border: 1px solid whitesmoke;
+}
+.boton_detalle:hover{
+    color: whitesmoke;
+    background-color: var(--color1);
+    transform: scale(1.05);
+}
+
+/* Editar contacto */
+
+.editar_contacto{
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 1em;
+    background-color: var(--color1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 1.8); 
+    color: whitesmoke;
+    text-align: center;
+    margin-bottom: 3em;
+}
+.editar_contacto li{
+    list-style-type: none;
+    color: whitesmoke;
+    font-size: .8em;
+}
+.editar_contacto input, .editar_contacto textarea {
+    border-radius: 2vw;
+    background-color: whitesmoke;
+    transition: 0.7s ease;
+    color: black;
+}
+.editar_contacto input:focus, .editar_contacto textarea:focus {
+    border-color: whitesmoke;
+    box-shadow: 0 0 1vw whitesmoke;
+    background-color: var(--color2);
+    color: whitesmoke;
+}
+.editar_contacto textarea{
+    max-height: 12rem;
+}
+.boton_editar {
+    border-radius: 1em;
+    background-color: var(--color2);
+    color: white;
+    width: 150px;
+    margin-top: 1em;
+    margin-left: 1vw;
+    transition: 0.7s ease;
+    border: 1px solid whitesmoke;
+}
+.boton_editar:hover{
+    color: var(--color1);
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}

@@ -1,0 +1,55 @@
+{% load static %} {% load multiply %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+    <link rel="shortcut icon" href="../static/img/Logo3.0Negro.png" type="image">
+    <link rel="icon" href="../static/img/Logo3.0Negro.png" type="image">
+    {% comment %} CSS {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/carrito.min.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container mt-5 pt-5 carrito_fondo">
+        <h1>Carrito de compras</h1>
+        {% if cart_items %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.product.price|floatformat:0  }}</td>
+                    <td>${{ item.quantity|multiply:item.product.price|floatformat:0 }}</td>
+                    <td>
+                        {% if item.id %}
+                            <a href="{% url 'store:remove_from_cart' item.id %}" class="btn btn-danger">Eliminar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="boton container">
+            <a href="{% url 'store:checkout' %}" class="fw-bold boton_pago">Pagar</a>
+            <a href="{% url 'store:product_list' %}" class="fw-bold boton_volver">Volver</a>
+        </div>
+        {% else %}
+        <p>No hay productos en el carrito.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

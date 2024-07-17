@@ -1,0 +1,23 @@
+{% load bootstrap5 %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}MoiWeb{% endblock %}</title>
+    <link rel="shortcut icon" href="../static/img/Logo3.0Negro.png" type="image">
+    <link rel="icon" href="../static/img/Logo3.0Negro.png" type="image">
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/otherstyles.min.css' %}" />
+    <script
+      src="https://kit.fontawesome.com/98b7a38728.js"
+      crossorigin="anonymous"
+    ></script>
+    {% block extra_head %} {% endblock %}
+  </head>
+  <body>
+    {% block content %} {% endblock %} {% bootstrap_javascript %}
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>

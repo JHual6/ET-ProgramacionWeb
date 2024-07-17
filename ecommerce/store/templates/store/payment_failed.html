@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error en el Pago</title>
+</head>
+<body>
+    <h1>Error en el Pago</h1>
+    <p>Hubo un error al procesar su pago.</p>
+    <p>Código de respuesta: {{ response.response_code }}</p>
+    <a href="{% url 'store:product_list' %}">Volver a la tienda</a>
+</body>
+</html>
